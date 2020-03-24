@@ -39,6 +39,7 @@ public class ChatListener implements Listener {
 
         if (message.startsWith("Horion - the best minecraft bedrock utility mod - ")) {
             e.setCancelled(true);
+            return;
         }
 
         if (name.equals(lastSender) && message.equals(lastMsg) && System.currentTimeMillis() - lastTime < 10000) {
