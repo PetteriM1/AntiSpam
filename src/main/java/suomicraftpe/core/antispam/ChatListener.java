@@ -37,7 +37,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        if (message.startsWith("Horion - the best minecraft bedrock utility mod - horionclient.eu | ")) {
+        if (message.startsWith("Horion - the best minecraft bedrock utility mod - ")) {
             e.setCancelled(true);
         }
 
@@ -51,6 +51,6 @@ public class ChatListener implements Listener {
         lastSender = name;
         lastTime = System.currentTimeMillis();
 
-        ChatCooldownQueue.list.put(name, System.currentTimeMillis());
+        ChatCooldownQueue.list.put(name, lastTime);
     }
 }
