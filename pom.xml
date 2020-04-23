@@ -6,7 +6,7 @@
 
     <groupId>suomicraftpe.core.antispam</groupId>
     <artifactId>AntiSpam</artifactId>
-    <version>Core_vr_5666908</version>
+    <version>Core_vr_01fdbc2</version>
     <build>
         <defaultGoal>install</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>

@@ -26,6 +26,7 @@ public class ChatListener implements Listener {
         if (ChatCooldownQueue.list.containsKey(name)) {
             p.sendMessage("§cYou are chatting too fast");
             e.setCancelled(true);
+            ChatCooldownQueue.list.put(name, System.currentTimeMillis());
             return;
         }
 
@@ -34,17 +35,20 @@ public class ChatListener implements Listener {
         if (message.length() > 150) {
             p.sendMessage("§cYour message is too long");
             e.setCancelled(true);
+            ChatCooldownQueue.list.put(name, System.currentTimeMillis());
             return;
         }
 
         if (message.startsWith("Horion - the best minecraft bedrock utility mod - ")) {
             e.setCancelled(true);
+            ChatCooldownQueue.list.put(name, System.currentTimeMillis());
             return;
         }
 
         if (name.equals(lastSender) && message.equals(lastMsg) && System.currentTimeMillis() - lastTime < 10000) {
             p.sendMessage("§cDuplicated message");
             e.setCancelled(true);
+            ChatCooldownQueue.list.put(name, System.currentTimeMillis());
             return;
         }
 
