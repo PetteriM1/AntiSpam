@@ -6,6 +6,7 @@ import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerChatEvent;
 import cn.nukkit.event.player.PlayerQuitEvent;
+import cn.nukkit.utils.TextFormat;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        String message = e.getMessage();
+        String message = TextFormat.clean(e.getMessage());
 
         if (message.length() > 150) {
             p.sendMessage("§cYour message is too long");
@@ -68,6 +69,6 @@ public class ChatListener implements Listener {
 
     private boolean tooSimilar(String player, String message) {
         String last = lastMsg.getOrDefault(player, "");
-        return message.equals(last) || StringUtils.getJaroWinklerDistance(message, last) > 0.95;
+        return message.equals(last) || StringUtils.getJaroWinklerDistance(message, last) > 0.9;
     }
 }
