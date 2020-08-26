@@ -35,7 +35,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        String message = TextFormat.clean(e.getMessage());
+        String message = TextFormat.clean(e.getMessage().toLowerCase());
 
         if (message.length() > 150) {
             p.sendMessage("§cYour message is too long");
@@ -44,7 +44,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        if (message.startsWith("Horion - the best minecraft bedrock utility mod - ")) {
+        if (message.startsWith("horion - the best minecraft bedrock utility mod - ")) {
             e.setCancelled(true);
             ChatCooldownQueue.list.put(name, time);
             return;
