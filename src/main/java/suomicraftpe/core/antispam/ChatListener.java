@@ -13,14 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Ported from SuomiCraft PE Core
+ * Originally ported from SuomiCraft PE Core
  * ------------------------------
  * SuomiCraft PE Core
  * Created by PetteriM1 for SuomiCraft PE Network
  */
 public class ChatListener implements Listener {
 
-    private Map<String, String> lastMsg = new HashMap<>();
+    private final Map<String, String> lastMsg = new HashMap<>();
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(PlayerChatEvent e) {
@@ -30,6 +30,12 @@ public class ChatListener implements Listener {
 
         if (ChatCooldownQueue.list.containsKey(name)) {
             p.sendMessage("§cYou are chatting too fast");
+            e.setCancelled(true);
+            ChatCooldownQueue.list.put(name, time);
+            return;
+        }
+
+        if (Loader.blockedMessages.contains(e.getMessage())) {
             e.setCancelled(true);
             ChatCooldownQueue.list.put(name, time);
             return;
