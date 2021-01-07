@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Originally ported from SuomiCraft PE Core
+ * Ported from SuomiCraft PE Core
  * ------------------------------
  * SuomiCraft PE Core
  * Created by PetteriM1 for SuomiCraft PE Network
