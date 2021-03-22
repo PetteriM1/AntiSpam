@@ -20,18 +20,18 @@ import java.util.Map;
  */
 public class ChatListener implements Listener {
 
-    private Map<String, String> lastMsg = new HashMap<>();
+    private final Map<Long, String> lastMessage = new HashMap<>();
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(PlayerChatEvent e) {
         Player p = e.getPlayer();
-        String name = p.getName();
+        long id = p.getId();
         long time = System.currentTimeMillis();
 
-        if (ChatCooldownQueue.list.containsKey(name)) {
+        if (ChatCooldownQueue.list.containsKey(id)) {
             p.sendMessage("§cYou are chatting too fast");
             e.setCancelled(true);
-            ChatCooldownQueue.list.put(name, time);
+            ChatCooldownQueue.list.put(id, time);
             return;
         }
 
@@ -40,35 +40,35 @@ public class ChatListener implements Listener {
         if (message.length() > 150) {
             p.sendMessage("§cYour message is too long");
             e.setCancelled(true);
-            ChatCooldownQueue.list.put(name, time);
+            ChatCooldownQueue.list.put(id, time);
             return;
         }
 
         if (message.startsWith("horion - the best minecraft bedrock utility mod - ")) {
             e.setCancelled(true);
-            ChatCooldownQueue.list.put(name, time);
+            ChatCooldownQueue.list.put(id, time);
             return;
         }
 
-        if (tooSimilar(name, message)) {
+        if (tooSimilar(id, message)) {
             p.sendMessage("§cDuplicated message");
             e.setCancelled(true);
-            ChatCooldownQueue.list.put(name, time);
+            ChatCooldownQueue.list.put(id, time);
             return;
         }
 
-        lastMsg.put(name, message);
+        lastMessage.put(id, message);
 
-        ChatCooldownQueue.list.put(name, time);
+        ChatCooldownQueue.list.put(id, time);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        lastMsg.remove(e.getPlayer().getName());
+        lastMessage.remove(e.getPlayer().getId());
     }
 
-    private boolean tooSimilar(String player, String message) {
-        String last = lastMsg.getOrDefault(player, "");
+    private boolean tooSimilar(long player, String message) {
+        String last = lastMessage.getOrDefault(player, "");
         return message.equals(last) || StringUtils.getJaroWinklerDistance(message, last) > 0.9;
     }
 }

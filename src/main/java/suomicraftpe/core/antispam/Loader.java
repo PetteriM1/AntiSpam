@@ -12,6 +12,6 @@ public class Loader extends PluginBase {
 
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new ChatCooldownQueue(), 31, 31);
+        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new ChatCooldownQueue(), 40, 40);
     }
 }

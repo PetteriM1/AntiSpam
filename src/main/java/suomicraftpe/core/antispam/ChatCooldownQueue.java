@@ -11,14 +11,14 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ChatCooldownQueue implements Runnable {
 
-    public static ConcurrentMap<String, Long> list = new ConcurrentHashMap<>();
+    public static ConcurrentMap<Long, Long> list = new ConcurrentHashMap<>();
 
     public void run() {
         long time = System.currentTimeMillis();
 
-        for (String s : list.keySet()) {
-            if (list.get(s) - time < 2000) {
-                list.remove(s);
+        for (Long id : list.keySet()) {
+            if (list.get(id) - time < 2000) {
+                list.remove(id);
             }
         }
     }
