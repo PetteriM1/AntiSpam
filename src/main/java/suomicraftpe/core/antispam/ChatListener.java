@@ -20,7 +20,8 @@ import java.util.Map;
  */
 public class ChatListener implements Listener {
 
-    private final Map<Long, String> lastMessage = new HashMap<>();
+    private final Map<Long, String> lastMessage = new HashMap<>(120);
+    private final Map<Long, String> lastMessage2 = new HashMap<>(120);
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(PlayerChatEvent e) {
@@ -50,7 +51,10 @@ public class ChatListener implements Listener {
             return;
         }
 
-        if (tooSimilar(id, message)) {
+        String last = lastMessage.getOrDefault(id, "");
+        String last2 = lastMessage2.getOrDefault(id, "");
+
+        if (tooSimilar(message, last, last2)) {
             p.sendMessage("§cDuplicated message");
             e.setCancelled(true);
             ChatCooldownQueue.list.put(id, time);
@@ -58,6 +62,7 @@ public class ChatListener implements Listener {
         }
 
         lastMessage.put(id, message);
+        lastMessage2.put(id, last);
 
         ChatCooldownQueue.list.put(id, time);
     }
@@ -65,10 +70,10 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         lastMessage.remove(e.getPlayer().getId());
+        lastMessage2.remove(e.getPlayer().getId());
     }
 
-    private boolean tooSimilar(long player, String message) {
-        String last = lastMessage.getOrDefault(player, "");
-        return message.equals(last) || StringUtils.getJaroWinklerDistance(message, last) > 0.9;
+    private boolean tooSimilar(String message, String last, String last2) {
+        return message.equals(last2) || message.equals(last) || StringUtils.getJaroWinklerDistance(message, last) > 0.9;
     }
 }
